@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+
+        <link rel='stylesheet' type='text/css' href='https://fonts.cdnfonts.com/css/ubuntu-mono' />
+        <link rel='stylesheet' type='text/css' media='screen' href='/styles/main.css' />
+
+        <base href="/" />
+
+        <script type="importmap">
+            {
+              "imports": {
+                "lit": "https://cdn.jsdelivr.net/gh/lit/dist@3.2.1/all/lit-all.min.js",
+                "lit-context": "https://esm.run/@lit/context",
+                "components": "./scripts/imports.js"
+              }
+            }
+        </script>
+
+        <script>
+            function convert() {
+                let inputText = document.getElementsByTagName("input")[0];
+                let decNumber = inputText.value;
+
+                let ternaryNumbers = [... document.getElementsByTagName("ternary-number")];
+                for (let t of ternaryNumbers) {
+                    t.decValue = decNumber;
+                }
+            }
+
+        </script>
+
+        <title>TernaryProject</title>
+    </head>
+    <body>
+        <h1>TernaryProject</h1>
+        <div id="container">
+
+            DEC:
+            <input type="text" id="input" name="input">
+            <button onClick="convert()">Convert</button>
+
+            <ternary-number decValue="500" balanced></ternary-number>
+            <ternary-number decValue="500"></ternary-number>
+        </div>
+    </body>
+    <script type="module">
+        import "./scripts/ternary-number.js";
+    </script>
+</html>
