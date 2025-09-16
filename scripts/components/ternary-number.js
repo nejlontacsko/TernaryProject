@@ -38,9 +38,19 @@ export class TernaryNumber extends LitElement {
 
     set decValue(value) {
         const old = this._decValue;
+
         this._decValue = Number(value);
+        this._sign = this._decValue < 0;
+        this._decValue = Math.abs(this._decValue);
+
         this.unbalancedDigits = this.toUnbalancedTernary(this._decValue);
         this.balancedDigits = this.toBalancedTernary(this._decValue);
+
+        if (this._sign) {
+            this.unbalancedDigits = ["-", ...this.toUnbalancedTernary(this._decValue)]
+            this.balancedDigits = this.invert(this.balancedDigits);
+        }
+
         this.requestUpdate('decValue', old);
     }
     get decValue() {
@@ -100,6 +110,19 @@ export class TernaryNumber extends LitElement {
             result.shift();
 
         return result;
+    }
+
+    invert(digits) {
+        let res = [];
+        for (let i = 0; i < digits.length; i++) {
+            if (digits[i] === "1")
+                res.push("rot1");
+            else if (digits[i] === "rot1")
+                res.push("1");
+            else
+                res.push(digits[i]);
+        }
+        return res;
     }
 
     render() {
