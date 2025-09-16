@@ -40,18 +40,15 @@
         <div id="container">
             <h1>TernaryProject</h1>
 
-            <label for="input">DEC:</label><input type="text" id="input" name="input" value="0" />
-            <button onClick="convert()">Convert</button>
-
-            <div class="strip">
-                <ternary-number decValue="0" balanced></ternary-number>
-                <ternary-number decValue="0"></ternary-number>
-            </div>
+            <ternary-control direction="input" name="operand_left"></ternary-control>
+            <ternary-control direction="input" name="operand_right"></ternary-control>
+            <ternary-control direction="output" name="result"></ternary-control>
         </div>
     </body>
 
     <script type="module">
         import "./scripts/components/ternary-number.js";
+        import "./scripts/components/ternary-control.js";
     </script>
 
 </html>

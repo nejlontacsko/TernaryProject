@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 
 export class TernaryNumber extends LitElement {
     static styles = css`
-            :host { display: inline-block; padding: 10px; border: 1px solid #ccc; }
+            :host { display: inline-block; padding: 10px; }
             .output { font-family: "Ubuntu Mono", sans-serif; font-size: 1.2em; }
         
             .rotate { transform: rotate(180deg); }
