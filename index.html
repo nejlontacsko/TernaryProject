@@ -6,7 +6,7 @@
         <meta name='viewport' content='width=device-width, initial-scale=1' />
 
         <link rel='stylesheet' type='text/css' href='https://fonts.cdnfonts.com/css/ubuntu-mono' />
-        <link rel='stylesheet' type='text/css' media='screen' href='/styles/main.css' />
+        <link rel='stylesheet' type='text/css' media='screen' href='./styles/main.css' />
 
         <base href="/" />
 
@@ -20,25 +20,12 @@
             }
         </script>
 
-        <script>
-            function convert() {
-                let inputText = document.getElementsByTagName("input")[0];
-                let decNumber = inputText.value;
-
-                let ternaryNumbers = [... document.getElementsByTagName("ternary-number")];
-                for (let t of ternaryNumbers) {
-                    t.decValue = decNumber;
-                }
-            }
-
-        </script>
-
         <title>TernaryProject</title>
     </head>
 
     <body>
         <div id="container">
-            <h1>TernaryProject</h1>
+            <h1>Ternary computation</h1>
 
             <ternary-control direction="input" name="operand_left"></ternary-control>
             <ternary-control direction="input" name="operand_right"></ternary-control>
