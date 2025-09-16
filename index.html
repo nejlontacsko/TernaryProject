@@ -35,19 +35,23 @@
 
         <title>TernaryProject</title>
     </head>
-    <body>
-        <h1>TernaryProject</h1>
-        <div id="container">
 
-            DEC:
-            <input type="text" id="input" name="input">
+    <body>
+        <div id="container">
+            <h1>TernaryProject</h1>
+
+            <label for="input">DEC:</label><input type="text" id="input" name="input" value="0" />
             <button onClick="convert()">Convert</button>
 
-            <ternary-number decValue="500" balanced></ternary-number>
-            <ternary-number decValue="500"></ternary-number>
+            <div class="strip">
+                <ternary-number decValue="0" balanced></ternary-number>
+                <ternary-number decValue="0"></ternary-number>
+            </div>
         </div>
     </body>
+
     <script type="module">
         import "./scripts/ternary-number.js";
     </script>
+
 </html>

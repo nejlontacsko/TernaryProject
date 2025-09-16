@@ -36,11 +36,15 @@ export class TernaryNumber extends LitElement {
         this.balancedDigits = ["0"];
     }
 
-    updated(changedProperties) {
-        if (changedProperties.has('decValue')) {
-            this.unbalancedDigits = this.toUnbalancedTernary(this.decValue);
-            this.balancedDigits = this.toBalancedTernary(this.decValue);
-        }
+    set decValue(value) {
+        const old = this._decValue;
+        this._decValue = Number(value);
+        this.unbalancedDigits = this.toUnbalancedTernary(this._decValue);
+        this.balancedDigits = this.toBalancedTernary(this._decValue);
+        this.requestUpdate('decValue', old);
+    }
+    get decValue() {
+        return this._decValue;
     }
 
     toUnbalancedTernary(value) {
