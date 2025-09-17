@@ -20,14 +20,13 @@ div#container
     padding: 16px;
 }
 
-div.strip
+h1
 {
-    border-left: 20px solid #bbbbbb;
-    padding: 16px;
-    margin: 16px 0 0 0;
+    color: #fcf5c2;
+    text-align: center;
 }
 
-h1
+h2
 {
     color: #fcf5c2;
 }

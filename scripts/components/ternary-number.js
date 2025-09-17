@@ -2,31 +2,41 @@ import { LitElement, html, css } from 'lit';
 
 export class TernaryNumber extends LitElement {
     static styles = css`
-            :host { display: inline-block; padding: 10px; }
-            .output { font-family: "Ubuntu Mono", sans-serif; font-size: 1.2em; }
-        
-            .rotate { transform: rotate(180deg); }
-            .digit
-            {
-                width: 25px;
-                height: 25px;
-                display: inline-block;
-                border: 1px solid #ccc;
-                vertical-align: middle;
-                text-align: center;
-            }
-            .sub
-            {
-                margin-left: -16px;
-                display: inline-block;
-                font-size: 12px;
-                vertical-align: sub;
-            }
-      `;
+        :host { display: inline-block; padding: 10px; }
+        .output { font-family: "Ubuntu Mono", sans-serif; font-size: 1.2em; }
+
+        .rotate { transform: rotate(180deg); }
+        .digit
+        {
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            
+            vertical-align: middle;
+            text-align: center;
+        }
+        .sub
+        {
+            margin-left: -16px;
+            display: inline-block;
+            font-size: 12px;
+            vertical-align: sub;
+        }
+    
+        .blue
+        {
+            border: 2px solid #3700dd;
+        }
+        .purple
+        {
+            border: 2px solid #7800c0;
+        }
+    `;
 
     static properties = {
         decValue: { type: Number },
-        balanced: { type: Boolean }
+        balanced: { type: Boolean },
+        color: { type: String }
     }
 
     constructor() {
@@ -131,7 +141,7 @@ export class TernaryNumber extends LitElement {
                 <div class="output">
                     ${this.balancedDigits.map(digit => {
                         const rotate = digit.startsWith("rot") ? "rotate" : "";
-                        return html`<div class="digit ${rotate}">${digit.slice(-1)}</div>`;
+                        return html`<div class="digit ${this.color} ${rotate}">${digit.slice(-1)}</div>`;
                     })}
                     <div class="sub">&#x2329;3b&#x232A;</div>
                 </div>`;
@@ -140,7 +150,7 @@ export class TernaryNumber extends LitElement {
             return html`
                 <div class="output">
                     ${this.unbalancedDigits.map(digit => {
-                        return html`<div class="digit">${digit}</div>`;
+                        return html`<div class="digit ${this.color}">${digit}</div>`;
                     })}
                     <div class="sub">&#x2329;3u&#x232A;</div>
                 </div>`;
