@@ -1,5 +1,6 @@
 export class CalcService extends EventTarget {
     #data = {};
+    #digitCount = 0;
 
     get data() {
         return this.#data;
@@ -13,6 +14,25 @@ export class CalcService extends EventTarget {
                 detail: this.#data
             }));
         }
+    }
+
+    get digitCount() {
+        return this.#digitCount;
+    }
+
+    set digitCount(value) {
+        let prev = this.#digitCount;
+        this.#digitCount = Math.max(this.#digitCount, value);
+        if (prev !== this.#digitCount) {
+            console.log("Length: " + this.#digitCount + " digits.");
+            this.dispatchEvent(new CustomEvent("length-changed", {
+                detail: this.#digitCount
+            }));
+        }
+    }
+
+    resetLength() {
+        this.#digitCount = 0;
     }
 
     setProperty(property, value) {

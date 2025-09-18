@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import { calcService } from 'services';
 
 export class TernaryNumber extends LitElement {
     static styles = css`
@@ -57,13 +58,18 @@ export class TernaryNumber extends LitElement {
         this._decValue = Math.abs(this._decValue);
 
         this.unbalancedDigits = this.toUnbalancedTernary(this._decValue);
+        calcService.digitCount = this.unbalancedDigits.length;
 
         this.balancedDigits = this.toBalancedTernary(this._decValue);
+        calcService.digitCount = this.balancedDigits.length;
 
         if (this._sign) {
             this.unbalancedDigits = ["-", ...this.toUnbalancedTernary(this._decValue)]
-            this.unbalancedComplement = this.makeComplement(this._decValue, this.unbalancedDigits.length);
+            calcService.digitCount = this.unbalancedDigits.length;
+            this.unbalancedComplement = this.makeComplement(this._decValue, calcService.digitCount);
+
             this.balancedDigits = this.invert(this.balancedDigits);
+            calcService.digitCount = this.balancedDigits.length;
         }
 
         this.requestUpdate('decValue');
@@ -145,6 +151,23 @@ export class TernaryNumber extends LitElement {
         }
         return res;
     }
+
+    connectedCallback() {
+        super.connectedCallback();
+        calcService.addEventListener("length-changed", this._onLength);
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        calcService.removeEventListener("length-changed", this._onLength);
+    }
+
+    _onLength = (e) => {
+        console.log("EVENT");
+        this.latest = e.detail;
+        //this.requestUpdate();
+        this.decValue = this._decValue;
+    };
 
     render() {
         if (this.balanced) {
