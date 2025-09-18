@@ -65,7 +65,6 @@ export class CalcService extends EventTarget {
             Number(this.#data["Operand Left"]),
             Number(this.#data["Operand Right"]));
 
-
         this.setProperty("Result", this.result);
         return true;
     }

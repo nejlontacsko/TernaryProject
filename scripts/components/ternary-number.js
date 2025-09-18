@@ -6,6 +6,7 @@ export class TernaryNumber extends LitElement {
         :host { display: inline-block; padding: 10px; }
         .output { font-family: "Ubuntu Mono", sans-serif; font-size: 1.2em; }
 
+        .zerofill { color: #444444; }
         .rotate { transform: rotate(180deg); }
         .digit
         {
@@ -16,9 +17,10 @@ export class TernaryNumber extends LitElement {
             vertical-align: middle;
             text-align: center;
         }
+        
         .sub
         {
-            margin-left: -16px;
+            margin-left: -10px;
             display: inline-block;
             font-size: 12px;
             vertical-align: sub;
@@ -52,6 +54,13 @@ export class TernaryNumber extends LitElement {
         this.balancedDigits = ["0"];
     }
 
+    padArray(arr, targetLength) {
+        const diff = Math.abs(targetLength - arr.length);
+        if (diff > 0)
+            return Array(diff).fill("fil0").concat(arr);
+        return arr;
+    }
+
     set decValue(value) {
         this._decValue = Number(value);
         this._sign = this._decValue < 0;
@@ -71,6 +80,10 @@ export class TernaryNumber extends LitElement {
             this.balancedDigits = this.invert(this.balancedDigits);
             calcService.digitCount = this.balancedDigits.length;
         }
+
+        this.unbalancedDigits = this.padArray(this.unbalancedDigits, calcService.digitCount);
+        this.unbalancedComplement = this.padArray(this.unbalancedComplement, calcService.digitCount);
+        this.balancedDigits = this.padArray(this.balancedDigits, calcService.digitCount);
 
         this.requestUpdate('decValue');
     }
@@ -163,9 +176,7 @@ export class TernaryNumber extends LitElement {
     }
 
     _onLength = (e) => {
-        console.log("EVENT");
         this.latest = e.detail;
-        //this.requestUpdate();
         this.decValue = this._decValue;
     };
 
@@ -174,8 +185,9 @@ export class TernaryNumber extends LitElement {
             return html`
                 <div class="output">
                     ${this.balancedDigits.map(digit => {
+                        const fill = digit.startsWith("fil") ? "zerofill" : "";
                         const rotate = digit.startsWith("rot") ? "rotate" : "";
-                        return html`<div class="digit ${this.color} ${rotate}">${digit.slice(-1)}</div>`;
+                        return html`<div class="digit ${this.color} ${rotate} ${fill}">${digit.slice(-1)}</div>`;
                     })}
                     <div class="sub">&#x2329;3b&#x232A;</div>
                 </div>`;
@@ -184,7 +196,8 @@ export class TernaryNumber extends LitElement {
             return html`
                 <div class="output">
                     ${this.unbalancedComplement.map(digit => {
-                        return html`<div class="digit ${this.color}">${digit}</div>`;
+                        const fill = digit.startsWith("fil") ? "zerofill" : "";
+                        return html`<div class="digit ${this.color} ${fill}">${digit.slice(-1)}</div>`;
                     })}
                     <div class="sub">&#x2329;3c&#x232A;</div>
                 </div>`;
@@ -193,7 +206,8 @@ export class TernaryNumber extends LitElement {
             return html`
                 <div class="output">
                     ${this.unbalancedDigits.map(digit => {
-                        return html`<div class="digit ${this.color}">${digit}</div>`;
+                        const fill = digit.startsWith("fil") ? "zerofill" : "";
+                        return html`<div class="digit ${this.color} ${fill}">${digit.slice(-1)}</div>`;
                     })}
                     <div class="sub">&#x2329;3u&#x232A;</div>
                 </div>`;
