@@ -73,6 +73,7 @@ export class TernaryControl extends LitElement {
         <div class="strip ${color}">
             <ternary-number class="${this.name}" color="${color}" decValue="0" balanced></ternary-number>
             <ternary-number class="${this.name}" color="${color}" decValue="0"></ternary-number>
+            <ternary-number class="${this.name}" color="${color}" decValue="0" showComplement></ternary-number>
         </div>`;
     }
 }

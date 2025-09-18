@@ -36,32 +36,37 @@ export class TernaryNumber extends LitElement {
     static properties = {
         decValue: { type: Number },
         balanced: { type: Boolean },
+        showComplement: { type: Boolean },
         color: { type: String }
     }
 
     constructor() {
         super();
 
+        this.balanced = false;
+        this.showComplement = false;
+
         this.unbalancedDigits = ["0"];
+        this.unbalancedComplement = ["0"]
         this.balancedDigits = ["0"];
     }
 
     set decValue(value) {
-        const old = this._decValue;
-
         this._decValue = Number(value);
         this._sign = this._decValue < 0;
         this._decValue = Math.abs(this._decValue);
 
         this.unbalancedDigits = this.toUnbalancedTernary(this._decValue);
+
         this.balancedDigits = this.toBalancedTernary(this._decValue);
 
         if (this._sign) {
             this.unbalancedDigits = ["-", ...this.toUnbalancedTernary(this._decValue)]
+            this.unbalancedComplement = this.makeComplement(this._decValue, this.unbalancedDigits.length);
             this.balancedDigits = this.invert(this.balancedDigits);
         }
 
-        this.requestUpdate('decValue', old);
+        this.requestUpdate('decValue');
     }
     get decValue() {
         return this._decValue;
@@ -87,6 +92,12 @@ export class TernaryNumber extends LitElement {
 
         digits = this.removeLeadingZeros(digits);
         return digits;
+    }
+
+    makeComplement(value, len) {
+        let modulus = Math.pow(3, len);
+        let comp = (modulus - value) % modulus;
+        return this.toUnbalancedTernary(comp);
     }
 
     toBalancedTernary(value) {
@@ -144,6 +155,15 @@ export class TernaryNumber extends LitElement {
                         return html`<div class="digit ${this.color} ${rotate}">${digit.slice(-1)}</div>`;
                     })}
                     <div class="sub">&#x2329;3b&#x232A;</div>
+                </div>`;
+        }
+        else if (this.showComplement) {
+            return html`
+                <div class="output">
+                    ${this.unbalancedComplement.map(digit => {
+                        return html`<div class="digit ${this.color}">${digit}</div>`;
+                    })}
+                    <div class="sub">&#x2329;3c&#x232A;</div>
                 </div>`;
         }
         else {
