@@ -177,5 +177,3 @@ export class TernaryNumber extends LitElement {
         }
     }
 }
-
-customElements.define('ternary-number', TernaryNumber);

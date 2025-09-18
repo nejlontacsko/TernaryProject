@@ -16,7 +16,8 @@
               "imports": {
                 "lit": "https://cdn.jsdelivr.net/gh/lit/dist@3.2.1/all/lit-all.min.js",
                 "lit-context": "https://esm.run/@lit/context",
-                "components": "./scripts/imports.js"
+                "components": "./scripts/components/imports.js",
+                "services": "./scripts/services/imports.js"
               }
             }
         </script>
@@ -36,8 +37,8 @@
     </body>
 
     <script type="module">
-        import "./scripts/components/ternary-number.js";
-        import "./scripts/components/ternary-control.js";
+        import 'components';
+        import 'services';
     </script>
 
 </html>

@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import { calcService } from 'services';
 
 export class TernaryControl extends LitElement {
     static styles = css`
@@ -36,6 +37,7 @@ export class TernaryControl extends LitElement {
         this.direction = "output";
         this.operandLeft = 0;
         this.operandRight = 0;
+        this.latest = 0;
     }
 
     convert() {
@@ -45,11 +47,30 @@ export class TernaryControl extends LitElement {
         let ternaryNumbers = this.renderRoot.querySelectorAll("ternary-number");
         for (let t of ternaryNumbers)
             t.decValue = decNumber;
+
+        calcService.data = decNumber;
     }
 
     execute() {
-        //TODO
+        let ternaryNumbers = this.renderRoot.querySelectorAll("ternary-number");
+        for (let t of ternaryNumbers)
+            t.decValue = calcService.data;
     }
+
+    connectedCallback() {
+        super.connectedCallback();
+        calcService.addEventListener("data-changed", this._onData);
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        calcService.removeEventListener("data-changed", this._onData);
+    }
+
+    _onData = (e) => {
+        this.latest = e.detail.value;
+        this.requestUpdate();
+    };
 
     render() {
         const color = this.direction === "output" ? "purple" : "blue";
@@ -71,12 +92,9 @@ export class TernaryControl extends LitElement {
                     <button @click=${this.execute}>Execute</button>`
         }
         <div class="strip ${color}">
-            <ternary-number class="${this.name}" color="${color}" decValue="0" balanced></ternary-number>
-            <ternary-number class="${this.name}" color="${color}" decValue="0"></ternary-number>
-            <ternary-number class="${this.name}" color="${color}" decValue="0" showComplement></ternary-number>
+            <ternary-number class="${this.name}" color="${color}" decValue="${this.latest}" balanced></ternary-number>
+            <ternary-number class="${this.name}" color="${color}" decValue="${this.latest}"></ternary-number>
+            <ternary-number class="${this.name}" color="${color}" decValue="${this.latest}" showComplement></ternary-number>
         </div>`;
     }
 }
-
-
-customElements.define('ternary-control', TernaryControl);
